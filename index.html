@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ledger — Expense &amp; Budget Visualizer</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div class="app">
+
+    <header class="app-header">
+      <div class="brand">
+        <span class="brand-mark">§</span>
+        <div class="brand-text">
+          <h1>Ledger</h1>
+          <p>your daily spending, kept in order</p>
+        </div>
+      </div>
+      <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle dark mode" title="Toggle dark / light">
+        <span class="theme-toggle-track">
+          <span class="theme-toggle-thumb"></span>
+        </span>
+      </button>
+    </header>
+
+    <!-- Signature element: the "stamp" balance card -->
+    <section class="stamp-card" aria-label="Total balance">
+      <div class="stamp-corner tl"></div>
+      <div class="stamp-corner tr"></div>
+      <div class="stamp-corner bl"></div>
+      <div class="stamp-corner br"></div>
+      <p class="stamp-label">Total Balance</p>
+      <p class="stamp-amount"><span class="currency">Rp</span><span id="totalBalance">0</span></p>
+      <p class="stamp-sub" id="entryCount">0 entries recorded</p>
+    </section>
+
+    <!-- Input form -->
+    <section class="panel">
+      <h2 class="panel-title">Add a transaction</h2>
+      <form id="transactionForm" class="entry-form" novalidate>
+        <div class="field">
+          <label for="itemName">Item name</label>
+          <input type="text" id="itemName" name="itemName" placeholder="e.g. Nasi goreng" autocomplete="off">
+        </div>
+        <div class="field field-amount">
+          <label for="itemAmount">Amount</label>
+          <input type="number" id="itemAmount" name="itemAmount" placeholder="0" min="0" step="1" inputmode="numeric">
+        </div>
+        <div class="field">
+          <label for="itemCategory">Category</label>
+          <select id="itemCategory" name="itemCategory">
+            <option value="" disabled selected>Choose category</option>
+            <option value="Food">Food</option>
+            <option value="Transport">Transport</option>
+            <option value="Fun">Fun</option>
+            <option value="__new__">+ Add new category…</option>
+          </select>
+        </div>
+        <p class="form-error" id="formError" hidden>Please fill in every field before adding an entry.</p>
+        <button type="submit" class="btn-add">Add entry</button>
+      </form>
+    </section>
+
+    <!-- Chart -->
+    <section class="panel">
+      <h2 class="panel-title">Spending by category</h2>
+      <div class="chart-wrap">
+        <canvas id="categoryChart" width="240" height="240" aria-label="Pie chart of spending by category" role="img"></canvas>
+        <p class="chart-empty" id="chartEmpty">Add a transaction to see the breakdown.</p>
+      </div>
+      <ul class="legend" id="chartLegend" aria-hidden="true"></ul>
+    </section>
+
+    <!-- Transaction list -->
+    <section class="panel">
+      <div class="panel-title-row">
+        <h2 class="panel-title">Transactions</h2>
+        <label class="sort-control">
+          <span>Sort</span>
+          <select id="sortSelect">
+            <option value="newest">Newest first</option>
+            <option value="amount-desc">Amount: high → low</option>
+            <option value="amount-asc">Amount: low → high</option>
+            <option value="category">Category (A–Z)</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="receipt-tear" aria-hidden="true"></div>
+
+      <ul id="transactionList" class="transaction-list">
+        <!-- transactions render here -->
+      </ul>
+      <p class="list-empty" id="listEmpty">No transactions yet. Your ledger is empty.</p>
+    </section>
+
+    <footer class="app-footer">
+      <p>Data is stored only in this browser (Local Storage). Nothing leaves your device.</p>
+    </footer>
+
+  </div>
+
+  <!-- Chart.js for the pie chart -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>
